@@ -20,6 +20,15 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.methods = {
+            fetchDeckList: function (endpoint) {
+                fetch(`edhrec.com/api/deckpreview/${endpoint}`)
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+            }
+        }
+    </script>
 </body>
 
 </html>

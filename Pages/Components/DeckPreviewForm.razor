@@ -1,25 +1,28 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using System.Text.RegularExpressions
-@using EDH2COD.Models
+﻿@inject NavigationManager NavManager
 
-<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <InputText id="url" @bind-Value="deckPreviewUrl.Url" />
-    <ValidationMessage For="@(() => deckPreviewUrl.Url)"/>
+<form @onsubmit="@HandleValidSubmit">
+    <span class="text-danger">@errorMessage</span> 
+    <input @bind="searchString" type="text" pattern="(https:\/\/)?(www.)?edhrec\.com\/deckpreview\/([a-zA-Z]+(\d[a-zA-Z]+)+)" title="You should enter a edhrec url that contains a single deck list and it has 'edhrec.com/deckpreview' on its address body" required/>
     <input type="submit" value="Submit" />
-</EditForm>
+</form>
 
 @code{
-    private DeckPreviewURL deckPreviewUrl = new DeckPreviewURL();
-    private EditContext? editContext;
-
-    protected override void OnInitialized()
-    {
-        editContext = new(deckPreviewUrl);
-    }
+    private string? searchString;
+    private string? errorMessage;
 
     private void HandleValidSubmit()
     {
-        Console.WriteLine($"{deckPreviewUrl.Url}");
+        errorMessage = "";
+
+        if (String.IsNullOrEmpty(searchString))
+        {
+            errorMessage = "Please, enter a valid Url.";
+            return;
+        }
+
+        int index = searchString.LastIndexOf("/") + 1;
+        string deckCode = searchString.Substring(index);
+
+        NavManager.NavigateTo($"/deckpreview/{deckCode}");
     }    
 }

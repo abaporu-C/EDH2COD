@@ -1,0 +1,20 @@
+﻿@page "/deckpreview/{deckCode}"
+@using EDH2COD.Models
+@using EDH2COD.Pages.Components
+@inject IJSRuntime JS
+
+<PageTitle>EDH2COD</PageTitle>
+
+<DeckPreviewForm />
+<button @onclick="CallJS">Call</button>
+
+@code {
+    [Parameter]
+    public string? deckCode { get; set; }
+    public CodFile? codFile;    
+
+    private async Task CallJS()
+    {
+        await JS.InvokeVoidAsync("methods.fetchDeckList", deckCode);                
+    }
+}
