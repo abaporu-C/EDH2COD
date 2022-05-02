@@ -1,0 +1,25 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
+@using EDH2COD.Models
+
+<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <InputText id="url" @bind-Value="deckPreviewUrl.Url" />
+    <ValidationMessage For="@(() => deckPreviewUrl.Url)"/>
+    <input type="submit" value="Submit" />
+</EditForm>
+
+@code{
+    private DeckPreviewURL deckPreviewUrl = new DeckPreviewURL();
+    private EditContext? editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(deckPreviewUrl);
+    }
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine($"{deckPreviewUrl.Url}");
+    }    
+}
