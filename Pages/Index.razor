@@ -1,9 +1,22 @@
 ﻿@page "/"
+@using Microsoft.Extensions.Logging
+@using EDH2COD.Models
 
-<PageTitle>Index</PageTitle>
+<PageTitle>EDH2COD</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Create .Cod Files of Your Favorite EDHREC Decks!</h1>
+<EditForm Model="@queryModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText id="query" @bind-Value="queryModel.Name" />
 
-Welcome to your new app.
+    <button type="submit">Submit</button>
+</EditForm>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    private QueryModel queryModel = new();
+
+    private void HandleValidSubmit(){
+        //process the valid form here
+    }
+}
